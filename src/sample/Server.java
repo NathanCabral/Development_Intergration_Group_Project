@@ -11,7 +11,8 @@ public class Server
 
     public static int SERVER_PORT = 16789;
     public static int MAX_CLIENTS = 2;
-    public static String[][] tile = new String[3][3];
+    public static String tile[][] = new String[3][3];
+    public static Boolean status = false;
     public Server()
     {
         try
@@ -29,6 +30,9 @@ public class Server
                 threads[numClients].setClientNumber(numClients+1);
                 threads[numClients].start();
                 numClients++;
+                if(numClients == 2){
+                    break;
+                }
             }
         }
         catch(IOException e)
@@ -36,12 +40,12 @@ public class Server
             System.err.println("IOException while creating server connection");
         }
     }
+    public static void update()
+    {
+        Client.generateBoard();
+    }
     public static void main(String[] args) {
         Server server = new Server();
     }
-//    public static void update(){
-//        for(ClientConnectionHandler x: threads){
-//
-//        }
-//    }
+
 }

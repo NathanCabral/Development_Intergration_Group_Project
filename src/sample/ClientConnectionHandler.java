@@ -75,6 +75,7 @@ public class ClientConnectionHandler extends Thread
     protected boolean processCommand(String command, String arguments) {
 
         // these are the other possible commands
+        System.out.println(command);
         if (command.equalsIgnoreCase("MOVE:"))
         {
             String[] values = arguments.split("'");
@@ -94,6 +95,7 @@ public class ClientConnectionHandler extends Thread
             System.out.println(Arrays.deepToString(Server.tile));
             out.println(Arrays.deepToString(Server.tile));
         }
+        counter++;
         return false;
     }
     protected boolean checkRowWin(String symbol)
@@ -184,4 +186,5 @@ public class ClientConnectionHandler extends Thread
         }
         return false;
     }
+
 }

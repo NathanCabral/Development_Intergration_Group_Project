@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import javax.swing.plaf.synth.SynthMenuBarUI;
 import java.io.*;
 import java.net.*;
@@ -34,8 +35,7 @@ public class Client extends Frame
     public static String symbol;
     public static GridPane pane = new GridPane();
     public Stage primaryStage;
-    public String key;
-
+    public static String key;
     public Client(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
@@ -64,8 +64,8 @@ public class Client extends Frame
         {
             System.err.println("IOEXception while opening a read/write connection");
         }
-        generateBoard(pane);
         getSymbol();
+        generateBoard();
 
     }
     public GridPane getPane()
@@ -94,13 +94,14 @@ public class Client extends Frame
         }
 
     }
-    public void generateBoard(GridPane pane)
+    public static void generateBoard()
     {
-        System.out.println("generate:" + Arrays.deepToString(Server.tile));
-        javafx.scene.control.Button block1 = new javafx.scene.control.Button(Server.tile[0][0]);
+        String[][] temp = Server.tile;
+
+        javafx.scene.control.Button block1 = new javafx.scene.control.Button(temp[0][0]);
+
         block1.setMinWidth(200);
         block1.setMinHeight(200);
-
         block1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -108,10 +109,10 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block2 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block2 = new javafx.scene.control.Button(temp[1][0]);
+
         block2.setMinWidth(200);
         block2.setMinHeight(200);
-
         block2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -119,10 +120,10 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block3 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block3 = new javafx.scene.control.Button(temp[2][0]);
+
         block3.setMinWidth(200);
         block3.setMinHeight(200);
-
         block3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -130,10 +131,10 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block4 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block4 = new javafx.scene.control.Button(temp[0][1]);
+
         block4.setMinWidth(200);
         block4.setMinHeight(200);
-
         block4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -141,7 +142,8 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block5 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block5 = new javafx.scene.control.Button(temp[1][1]);
+
         block5.setMinWidth(200);
         block5.setMinHeight(200);
 
@@ -152,7 +154,8 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block6 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block6 = new javafx.scene.control.Button(temp[2][1]);
+
         block6.setMinWidth(200);
         block6.setMinHeight(200);
 
@@ -163,7 +166,8 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block7 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block7 = new javafx.scene.control.Button(temp[0][2]);
+
         block7.setMinWidth(200);
         block7.setMinHeight(200);
 
@@ -174,7 +178,8 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block8 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block8 = new javafx.scene.control.Button(temp[1][2]);
+
         block8.setMinWidth(200);
         block8.setMinHeight(200);
 
@@ -185,7 +190,8 @@ public class Client extends Frame
             }
         });
 
-        javafx.scene.control.Button block9 = new javafx.scene.control.Button("");
+        javafx.scene.control.Button block9 = new javafx.scene.control.Button(temp[2][2]);
+
         block9.setMinWidth(200);
         block9.setMinHeight(200);
 
@@ -195,16 +201,7 @@ public class Client extends Frame
                 checkStatus(block9,2,2);
             }
         });
-        javafx.scene.control.Button block10 = new javafx.scene.control.Button("");
-        block10.setMinWidth(200);
-        block10.setMinHeight(200);
 
-        block10.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-            }
-        });
         pane.add(block1,0,0);
         pane.add(block2,0,1);
         pane.add(block3,0,2);
@@ -214,13 +211,10 @@ public class Client extends Frame
         pane.add(block7,2,0);
         pane.add(block8,2,1);
         pane.add(block9,2,2);
-        pane.add(block10,3,0);
 
     }
-    public static void checkStatus(Button block, int column, int row)
-    {
-        if(Server.tile[column][row] == null || Server.tile[column][row].equals("null"))
-        {
+    public static void checkStatus(Button block, int column, int row) {
+        if (Server.tile[column][row] == null || Server.tile[column][row].contains("null")) {
             String s = "";
             block.setText(symbol);
             Server.tile[column][row] = symbol;
@@ -245,15 +239,11 @@ public class Client extends Frame
                     my_matrics[i][j]=single_int[j];//adding single values
                 }
             }
-
             Server.tile = my_matrics;
-            System.out.println("Server: "+ Arrays.deepToString(Server.tile));
-
-        }
-        else
-        {
+            System.out.println("Server: " + Arrays.deepToString(Server.tile));
+            Server.update();
+        } else {
             System.out.println("ALREADY TAKEN");
         }
     }
-
 }
