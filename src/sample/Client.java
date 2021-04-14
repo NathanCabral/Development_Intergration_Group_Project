@@ -23,17 +23,18 @@ import java.util.stream.Stream;
 public class Client extends Frame
 {
     private Socket socket = null;
-    private BufferedReader in = null;
-    private PrintWriter networkOut = null;
+    private static BufferedReader in = null;
+    private static PrintWriter networkOut = null;
     private static BufferedReader networkIn = null;
 
     //we can read this from the user too
     public  static String SERVER_ADDRESS = "localhost";
     public  static int    SERVER_PORT = 16789;
-    public String symbol;
+    public static String symbol;
     public static GridPane pane = new GridPane();
     public Stage primaryStage;
-    public String key;
+    public static String key;
+    public static int counter = 0;
 
     public Client(Stage primaryStage)
     {
@@ -63,7 +64,7 @@ public class Client extends Frame
         {
             System.err.println("IOEXception while opening a read/write connection");
         }
-        generateBoard(pane);
+        generateBoard(pane,new String[3][3]);
         getSymbol();
 
     }
@@ -93,120 +94,52 @@ public class Client extends Frame
         }
 
     }
-    public void generateBoard(GridPane pane)
+    public static void generateBoard(GridPane pane,String tile[][])
     {
-        javafx.scene.control.Button block1 = new javafx.scene.control.Button("");
-        block1.setMinWidth(200);
-        block1.setMinHeight(200);
-
-        block1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block1,0,0);
+        if(counter == 0)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j< 3; j++)
+                {
+                    Button block = new Button(tile[i][j]);
+                    block.setMinWidth(200);
+                    block.setMinHeight(200);
+                    pane.add(block,i,j);
+                    int x = i;
+                    int y = j;
+                    block.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            checkStatus(block,x,y);
+                        }
+                    });
+                }
             }
-        });
-
-        javafx.scene.control.Button block2 = new javafx.scene.control.Button("");
-        block2.setMinWidth(200);
-        block2.setMinHeight(200);
-
-        block2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block2,1,0);
+        }
+        else
+        {
+            Node result = null;
+            ObservableList<Node> childrens = pane.getChildren();
+            for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j< 3; j++)
+                {
+                    for (Node node : childrens) {
+                        if(pane.getRowIndex(node) == j && pane.getColumnIndex(node) == i) {
+                            result = node;
+                            break;
+                        }
+                    }
+                    result.setAccessibleText(symbol);
+                }
             }
-        });
-
-        javafx.scene.control.Button block3 = new javafx.scene.control.Button("");
-        block3.setMinWidth(200);
-        block3.setMinHeight(200);
-
-        block3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block3,2,0);
-            }
-        });
-
-        javafx.scene.control.Button block4 = new javafx.scene.control.Button("");
-        block4.setMinWidth(200);
-        block4.setMinHeight(200);
-
-        block4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block4,0,1);
-            }
-        });
-
-        javafx.scene.control.Button block5 = new javafx.scene.control.Button("");
-        block5.setMinWidth(200);
-        block5.setMinHeight(200);
-
-        block5.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block5,1,1);
-            }
-        });
-
-        javafx.scene.control.Button block6 = new javafx.scene.control.Button("");
-        block6.setMinWidth(200);
-        block6.setMinHeight(200);
-
-        block6.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block6,2,1);
-            }
-        });
-
-        javafx.scene.control.Button block7 = new javafx.scene.control.Button("");
-        block7.setMinWidth(200);
-        block7.setMinHeight(200);
-
-        block7.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block7,0,2);
-            }
-        });
-
-        javafx.scene.control.Button block8 = new javafx.scene.control.Button("");
-        block8.setMinWidth(200);
-        block8.setMinHeight(200);
-
-        block8.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block8,1,2);
-            }
-        });
-
-        javafx.scene.control.Button block9 = new javafx.scene.control.Button("");
-        block9.setMinWidth(200);
-        block9.setMinHeight(200);
-
-        block9.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                checkStatus(block9,2,2);
-            }
-        });
-        pane.add(block1,0,0);
-        pane.add(block2,0,1);
-        pane.add(block3,0,2);
-        pane.add(block4,1,0);
-        pane.add(block5,1,1);
-        pane.add(block6,1,2);
-        pane.add(block7,2,0);
-        pane.add(block8,2,1);
-        pane.add(block9,2,2);
-
+        }
     }
-    public void checkStatus(Button block, int column, int row)
+    public static void checkStatus(Button block, int column, int row)
     {
-        if(block.getText().equals(""))
+        System.out.println(block.getText());
+        if(block.getText()==null)
         {
             block.setText(symbol);
             networkOut.flush();
@@ -214,7 +147,14 @@ public class Client extends Frame
         }
         else
         {
-            System.out.println("ALREADY TAKEN");
+            if(key.equals("1"))
+            {
+                block.setText("O");
+            }
+            else
+            {
+                block.setText("X");
+            }
         }
     }
 }
