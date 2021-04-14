@@ -5,12 +5,17 @@ import java.net.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.regex.Pattern;
+
 public class ClientConnectionHandler extends Thread
 {
     protected Socket socket       = null;
     protected PrintWriter out     = null;
     protected BufferedReader in   = null;
-    public static String tile[][] = new String[3][3];
+
     public int counter = 0;
 
     protected static boolean updateRequired = false;
@@ -68,6 +73,7 @@ public class ClientConnectionHandler extends Thread
         return processCommand(command, args);
     }
     protected boolean processCommand(String command, String arguments) {
+
         // these are the other possible commands
         if (command.equalsIgnoreCase("MOVE:"))
         {
@@ -76,20 +82,17 @@ public class ClientConnectionHandler extends Thread
             values = arguments.split(",");
             int column = Integer.valueOf(values[1]);
             int row = Integer.valueOf(values[2]);
-            tile[column][row] = player;
-            for(int i = 0; i < 3; i++)
-            {
-                for(int j = 0; j< 3; j++)
-                {
-                    System.out.print(tile[i][j]);
-                }
-                System.out.print("\n");
+            if(Server.tile[column][row] == null)
+                Server.tile[column][row] = player;
+            else{
+                System.out.println("ERRRROR");
             }
-            Client.generateBoard(Client.pane,tile);
             if(checkWin(player))
             {
                 return true;
             }
+            System.out.println(Arrays.deepToString(Server.tile));
+            out.println(Arrays.deepToString(Server.tile));
         }
         return false;
     }
@@ -101,7 +104,7 @@ public class ClientConnectionHandler extends Thread
             winFound = 0;
             for(int j = 0; j < 3; j++)
             {
-                String value = tile[i][j];
+                String value = Server.tile[i][j];
                 if(symbol.equals(value))
                 {
                     winFound++;
@@ -122,7 +125,7 @@ public class ClientConnectionHandler extends Thread
             winFound = 0;
             for(int j = 0; j < 3; j++)
             {
-                String value = tile[j][i];
+                String value = Server.tile[j][i];
                 if(symbol.equals(value))
                 {
                     winFound++;
@@ -140,7 +143,7 @@ public class ClientConnectionHandler extends Thread
         int winFound = 0;
         for(int i = 0; i < 3; i++)
         {
-            String value = tile[i][i];
+            String value = Server.tile[i][i];
             if(symbol.equals(value))
             {
                 winFound++;
@@ -159,7 +162,7 @@ public class ClientConnectionHandler extends Thread
         int winFound = 0;
         while(i>= 0)
         {
-            String value = tile[j][i];
+            String value = Server.tile[j][i];
             if(symbol.equals(value))
             {
                 winFound++;

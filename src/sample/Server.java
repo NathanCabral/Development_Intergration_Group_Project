@@ -6,12 +6,12 @@ public class Server
 {
     protected Socket clientSocket = null;
     protected ServerSocket serverSocket = null;
-    protected ClientConnectionHandler[] threads = null;
+    protected static ClientConnectionHandler[] threads = null;
     protected int numClients = 0;
 
     public static int SERVER_PORT = 16789;
     public static int MAX_CLIENTS = 2;
-
+    public static String[][] tile = new String[3][3];
     public Server()
     {
         try
@@ -39,4 +39,9 @@ public class Server
     public static void main(String[] args) {
         Server server = new Server();
     }
+//    public static void update(){
+//        for(ClientConnectionHandler x: threads){
+//
+//        }
+//    }
 }
