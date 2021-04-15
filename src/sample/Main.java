@@ -20,8 +20,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         System.out.println(Arrays.deepToString(Server.tile));
         Client player = new Client(primaryStage);
+        Scene scene = new Scene(player.getPane(), 600, 643);
         primaryStage.setTitle("TIC TAC TOE GAME");
-        primaryStage.setScene(new Scene(player.getPane(), 725, 600));
+        primaryStage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
+
         primaryStage.show();
     }
 

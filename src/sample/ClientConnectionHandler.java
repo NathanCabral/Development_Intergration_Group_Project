@@ -75,7 +75,6 @@ public class ClientConnectionHandler extends Thread
     protected boolean processCommand(String command, String arguments) {
 
         // these are the other possible commands
-        System.out.println(command);
         if (command.equalsIgnoreCase("MOVE:"))
         {
             String[] values = arguments.split("'");
@@ -83,19 +82,30 @@ public class ClientConnectionHandler extends Thread
             values = arguments.split(",");
             int column = Integer.valueOf(values[1]);
             int row = Integer.valueOf(values[2]);
-            if(Server.tile[column][row] == null)
+            if(Server.tile[column][row].equals("-"))
                 Server.tile[column][row] = player;
             else{
                 System.out.println("ERRRROR");
             }
+            out.println(Arrays.deepToString(Server.tile));
             if(checkWin(player))
             {
+                String message = "Player " + player + " has won the Game";
+                Server.winner(message,"Winner");
                 return true;
             }
-            System.out.println(Arrays.deepToString(Server.tile));
-            out.println(Arrays.deepToString(Server.tile));
+            if(counter == 9)
+            {
+                String message = "Game Ended In A Draw";
+                Server.winner(message,"Draw");
+                return true;
+            }
+
         }
         counter++;
+        if (command.equalsIgnoreCase("UPDATE")){
+            out.println(Arrays.deepToString(Server.tile));
+        }
         return false;
     }
     protected boolean checkRowWin(String symbol)
