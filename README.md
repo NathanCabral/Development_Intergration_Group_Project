@@ -1,10 +1,5 @@
 Multithreading Network Tic Tac Toe Game
 
-Screenshot of project running:
-
-![unknown](https://user-images.githubusercontent.com/37226310/114810317-d4b27180-9d79-11eb-9b85-c75076a598e0.png)
-
-
 Short Description:
 
 This project is a Tic Tac Toe Game simulation, that allows two clients to play across a network. The game is played by selecting a button on the board which you would like to place your symbol.
@@ -31,4 +26,7 @@ How to run:
 The code was built using javaFX, with UI improvements using CSS.
 
 The Two Client Interfaces and Running Server can be seen below:
+
+![unknown](https://user-images.githubusercontent.com/37226310/114810353-e7c54180-9d79-11eb-8cc0-0eac0be06b02.png)
+
 
