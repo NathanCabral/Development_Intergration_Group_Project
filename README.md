@@ -7,7 +7,9 @@ Client 1 is listed as player X and Client 2 is listed as Player O. Once this is 
 a draw or a winner is declared. A winnder is declared when one of the following patterns are displayed:
 
 --- xxx --- x-- -x- --x x-- --x
+
 xxx --- --- x-- -x- --x -x- -x-
+
 --- --- xxx x-- -x- --x --x x--
 
 When a winner or draw occurs, the server and all clients will disconnect. Thus making the game completed.
