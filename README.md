@@ -1,5 +1,12 @@
 ## Multithreading Network Tic Tac Toe Game
 
+Members:  
+Sejal Shingal (100738147)  
+Alexander Giannoulis (100748198)  
+Nathan Cabral (100740235)  
+Jacky Phung (100766321)  
+
+
 Short Description:
 
 This project is a Tic Tac Toe Game simulation, that allows two clients to play across a network. The game is played by selecting a button on the board which you would like to place your symbol.
