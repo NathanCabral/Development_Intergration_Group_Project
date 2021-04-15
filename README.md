@@ -6,11 +6,9 @@ This project is a Tic Tac Toe Game simulation, that allows two clients to play a
 Client 1 is listed as player X and Client 2 is listed as Player O. Once this is done, client 2 will refresh their GUI using the refresh button, and then make their subsequent move. This will go on until there is 
 a draw or a winner is declared. A winnder is declared when one of the following patterns are displayed:
 
---- xxx --- x-- -x- --x x-- --x
-
-xxx --- --- x-- -x- --x -x- -x-
-
---- --- xxx x-- -x- --x --x x--
+--- xxx --- x-- -x- --x x-- --x  
+xxx --- --- x-- -x- --x -x- -x-  
+--- --- xxx x-- -x- --x --x x--  
 
 When a winner or draw occurs, the server and all clients will disconnect. Thus making the game completed.
 
