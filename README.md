@@ -1,5 +1,10 @@
 Multithreading Network Tic Tac Toe Game
 
+Screenshot of project running:
+
+![unknown](https://user-images.githubusercontent.com/37226310/114810317-d4b27180-9d79-11eb-9b85-c75076a598e0.png)
+
+
 Short Description:
 
 This project is a Tic Tac Toe Game simulation, that allows two clients to play across a network. The game is played by selecting a button on the board which you would like to place your symbol.
